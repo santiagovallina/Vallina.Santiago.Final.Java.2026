@@ -4,9 +4,13 @@ import Model.Vehiculo;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -122,6 +126,37 @@ public class GestorVehiculos<T extends CSVSerializable & Comparable<T>> implemen
             consumer.accept(vehiculo);
         }
     }
+    
+    @Override
+    public void guardarEnBinario(String path){
+        List<T> lista = vehiculos;
+        try(ObjectOutputStream salida = new ObjectOutputStream(new FileOutputStream(path))){
+            salida.writeObject(lista);
+        } catch (IOException ex){
+            ex.printStackTrace();
+            System.out.print(ex.getMessage());
+        }    
+    }
+    
+    @Override
+    public void cargarDesdeBinario(String path) {
+    vehiculos.clear();
+    
+    try (ObjectInputStream entrada = new ObjectInputStream(new FileInputStream(path))) {
+        // Deserializa la lista de objetos
+        vehiculos.addAll((List<T>) entrada.readObject());
+    }   catch (IOException ex) {
+        // Manejo de excepciones de I/O
+        System.out.println("Error al leer el archivo: " + ex.getMessage());
+        ex.printStackTrace();
+    } catch (ClassNotFoundException ex) {
+        // Manejo de excepciones si la clase no es encontrada
+        System.out.println("Clase no encontrada durante la deserialización: " + ex.getMessage());
+        ex.printStackTrace();
+    }
+    }  
+    
+    
     
     @Override
     public void guardarEnCSV(String path ){

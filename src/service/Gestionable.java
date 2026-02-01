@@ -1,6 +1,7 @@
 package service;
 
 import Model.Vehiculo;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Consumer;
@@ -26,6 +27,10 @@ public interface Gestionable<T>{
     public List<T> filtrar(Predicate<T> predicate);
     
     void aplicarCambios(Consumer<T> consumer);
+    
+    void guardarEnBinario(String path);
+    
+    void cargarDesdeBinario(String path);
     
     void guardarEnCSV(String path);
     

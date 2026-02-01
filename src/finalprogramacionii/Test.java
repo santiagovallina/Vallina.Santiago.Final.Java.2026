@@ -54,15 +54,23 @@ public class Test {
         
         // aumentar precio usando consumer
         gestor.aplicarCambios(ve -> {
-            if (ve instanceof Vehiculo) {
-                Vehiculo veh = (Vehiculo) ve;  
-                double nuevoPrecio = veh.getPrecio() * 1.1;
-                veh.setPrecio(nuevoPrecio);
+            if (ve instanceof Vehiculo) { 
+                double nuevoPrecio = ve.getPrecio() * 1.1;
+                ve.setPrecio(nuevoPrecio);
             }
         });
-        
         System.out.println("\n=== Lista después de aumentar precios 10% ===");
         gestor.leer();
+        
+        
+        // Guardar y cargar en archivo binario
+        gestor.guardarEnBinario(AppConfig.PATH_SER);
+        GestorVehiculos<Vehiculo> gestorBinario = new GestorVehiculos<>();
+        gestorBinario.cargarDesdeBinario(AppConfig.PATH_SER);
+        System.out.println("\nEventos cargados desde archivo binario:");
+        gestorBinario.leer();
+        
+        
 
         // Guardar y cargar en archivo CSV
         gestor.guardarEnCSV(AppConfig.PATH_CSV);
