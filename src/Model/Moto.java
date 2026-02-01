@@ -1,24 +1,33 @@
 package Model;
 
-public class Moto extends Vehiculo{
+import java.io.Serializable;
+import service.CSVSerializable;
+
+public class Moto extends Vehiculo implements CSVSerializable, Serializable{
     
     private int cilindrada;
-    private int peso;
+    private double peso;
 
-    public Moto(String patente, int modelo, String marca, int cilindrada, int peso,  Color color) {
-        super(patente, modelo, marca, color);
+    public Moto(String patente, int modelo, String marca, Color color, double precio,  int cilindrada, int peso) {
+        super(patente, modelo, marca, color, precio);
         this.cilindrada = cilindrada;
         this.peso = peso;
     }
     
-    public Moto(String patente, int modelo, String marca, int cilindrada,  Color color) {
-        super(patente, modelo, marca, color);
+    public Moto(String patente, int modelo, String marca, int cilindrada,  Color color, double precio) {
+        super(patente, modelo, marca, color, precio);
         this.cilindrada = cilindrada;
     }
     
-    public Moto(String patente, int modelo, String marca,  Color color) {
-        super(patente, modelo, marca, color);
+    public Moto(String patente, int modelo, String marca,  Color color, double precio) {
+        super(patente, modelo, marca, color, precio);
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + "Moto{" + "cilindrada=" + cilindrada + ", peso=" + peso + '}';
+    }
+    
     
     @Override
     public void encender(){
@@ -33,6 +42,13 @@ public class Moto extends Vehiculo{
     @Override
     public void frenar(){
         System.out.println("Frenando la moto");
+    }
+
+    
+    
+    @Override
+    public String toHeaderCSV() {
+        return "patente,modelo,marca,color,precio,cilindrada,peso";
     }
     
     

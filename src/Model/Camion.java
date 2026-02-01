@@ -1,29 +1,37 @@
 package Model;
 
-public class Camion extends Vehiculo implements Cargable{
+import java.io.Serializable;
+import service.CSVSerializable;
+
+public class Camion extends Vehiculo implements Cargable, CSVSerializable, Serializable{
     
     private int cantidadEjes;
     private int alto;
     private int largo;
 
-    public Camion(int cantidadEjes, int alto, int largo, String patente, int modelo, String marca, Color color) {
-        super(patente, modelo, marca, color);
+    public Camion(String patente, int modelo, String marca, Color color, double precio, int cantidadEjes, int alto, int largo) {
+        super(patente, modelo, marca, color, precio);
         this.cantidadEjes = cantidadEjes;
         this.alto = alto;
         this.largo = largo;
     }
 
 
-    public Camion(String patente, int modelo, String marca, int cantidadEjes, int alto, Color color) {
-        super(patente, modelo, marca, color);
+    public Camion(String patente, int modelo, String marca, Color color, double precio, int cantidadEjes) {
+        super(patente, modelo, marca, color, precio);
         this.cantidadEjes = cantidadEjes;
-        this.alto = alto;  
     }
     
-    public Camion(String patente, int modelo, String marca, Color color) {
-        super(patente, modelo, marca, color);
+    public Camion(String patente, int modelo, String marca, Color color, double precio) {
+        super(patente, modelo, marca, color, precio);
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "Camion{" + "cantidadEjes=" + cantidadEjes + ", alto=" + alto + ", largo=" + largo + '}';
     }
     
+ 
     @Override
     public void encender(){
         System.out.println("Encendiendo el camion");
@@ -42,6 +50,13 @@ public class Camion extends Vehiculo implements Cargable{
     @Override
     public void cargarVehiculo() {
         System.out.println("Cargando mercadería en el camión");
+    }
+
+    
+    
+    @Override
+    public String toHeaderCSV() {
+        return "patente,modelo,marca,color,precio,cantidad de ejes, alto, largo";
     }
 
   

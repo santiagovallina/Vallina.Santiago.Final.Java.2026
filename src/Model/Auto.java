@@ -1,25 +1,35 @@
 package Model;
 
-public class Auto extends Vehiculo implements Cargable{
+import java.io.Serializable;
+import service.CSVSerializable;
+
+public class Auto extends Vehiculo implements Cargable, CSVSerializable, Serializable{
     
     private int puertas;
     private double motor;
 
-    public Auto(int puertas, double motor, String patente, int modelo, String marca, Color color) {
-        super(patente, modelo, marca, color);
+    public Auto(String patente, int modelo, String marca, Color color, double precio, int puertas, double motor) {
+        super(patente, modelo, marca, color, precio);
         this.puertas = puertas;
         this.motor = motor;
     }
+    
 
-
-    public Auto(String patente, int modelo, String marca, int puertas,  Color color) {
-        super(patente, modelo, marca, color);
-        this.puertas = puertas;
+    public Auto(String patente, int modelo, String marca,  Color color, double precio,  double motor) {
+        super(patente, modelo, marca, color, precio);
+        this.motor = motor;
     }
     
-    public Auto(String patente, int modelo, String marca,  Color color) {
-        super(patente, modelo, marca, color);
+    public Auto(String patente, int modelo, String marca,  Color color, double precio) {
+        super(patente, modelo, marca, color, precio);
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + "Auto{" + "puertas=" + puertas + ", motor=" + motor + '}';
+    }
+    
+    
     
     @Override
     public void encender(){
@@ -40,6 +50,14 @@ public class Auto extends Vehiculo implements Cargable{
     public void cargarVehiculo() {
         System.out.println("Cargando el baul del auto.");
     }
+    
+    
+    @Override
+    public String toHeaderCSV() {
+        return "patente,modelo,marca,color,precio, puertas, motor";
+    }
+
+    
     
     
 }

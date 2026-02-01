@@ -1,15 +1,22 @@
 package service;
 
 import Model.Vehiculo;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Predicate;
+import service.CSVSerializable;
 
 
-public class GestorVehiculos<T extends Comparable<T>> implements Gestionable<T>{
+public class GestorVehiculos<T extends CSVSerializable & Comparable<T>> implements Gestionable<T>{
     
     private List<T> vehiculos = new ArrayList<>();
 
@@ -22,6 +29,7 @@ public class GestorVehiculos<T extends Comparable<T>> implements Gestionable<T>{
             throw new IllegalArgumentException("Eso no es un vehiculo.");
         }
         vehiculos.add(item);
+        System.out.println("Vehículo agregado correctamente.");
     }
 
     @Override
@@ -43,19 +51,31 @@ public class GestorVehiculos<T extends Comparable<T>> implements Gestionable<T>{
         T vehiculo = vehiculos.get(i);
         if (vehiculo instanceof Vehiculo && ((Vehiculo) vehiculo).getPatente().equalsIgnoreCase(patente)) {
             vehiculos.set(i, nuevoVehiculo);
-            System.out.println("Vehículo con patente " + patente + " actualizado correctamente.");
+            System.out.println("Vehiculo con patente " + patente + " actualizado correctamente.");
             return;
         }
     }
     System.out.println("No se encontró un vehículo con la patente " + patente + ".");
     }
-
-
+    
     @Override
-    public void eliminar(String patente) {
-        vehiculos.remove(patente);
+    public void eliminarPorIndice(int id){
+        vehiculos.remove(id);
     }
     
+    @Override
+    public void eliminarPorPatente(String patente){
+        Iterator<T> it = vehiculos.iterator();
+        while (it.hasNext()){
+            T vehiculo = it.next();
+            if (vehiculo instanceof Vehiculo && ((Vehiculo) vehiculo).getPatente().equalsIgnoreCase(patente)){
+                it.remove();
+                System.out.println("Vehiculo con patente " + patente + " eliminado");
+                return;
+            }
+        }
+        System.out.println("No se encontró ningún vehiculo con esa patente");
+    }
     
     @Override
     public void ordenar(){
@@ -95,5 +115,52 @@ public class GestorVehiculos<T extends Comparable<T>> implements Gestionable<T>{
     public Iterator<T> iterator() {
         return new VehiculoIterator();
     }
+    
+    @Override
+    public void aplicarCambios(java.util.function.Consumer<T> consumer) {
+        for (T vehiculo : vehiculos) {
+            consumer.accept(vehiculo);
+        }
+    }
+    
+    @Override
+    public void guardarEnCSV(String path ){
+        List<T> lista = vehiculos;
+        File archivo = new File(path);
+        
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(archivo))){
+            bw.write("patente,modelo,marca,color,precio\n");
+            for(T e: lista){
+                String tipo = e.getClass().getSimpleName().toUpperCase();
+                bw.write(tipo + ", " + e.toCSV() + "\n");
+            }
+        } catch (IOException ex){
+            System.out.println(ex.getMessage());
+        }  
+    }
+    
+    @Override
+    public List<Vehiculo> cargarDesdeCSV(String path){
+        List<Vehiculo> toReturn = new ArrayList<>();
+        File archivo = new File(path);
+        
+        try (BufferedReader br = new BufferedReader(new FileReader(archivo))){
+            String linea;
+            br.readLine();
+            while ((linea = br.readLine()) != null){
+                if(linea.endsWith("\n")){
+                    linea = linea.substring(0, linea.length() -1);
+                }
+                String[] values = linea.split(",");
+                toReturn.add(Vehiculo.fromCSV(linea));
+            }
+        } catch (IOException ex){
+            System.out.println(ex.getMessage());
+        }
+        return toReturn;
+        }
+    
+    
+
     
 }

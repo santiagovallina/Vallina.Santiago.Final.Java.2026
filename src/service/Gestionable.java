@@ -1,7 +1,9 @@
 package service;
 
+import Model.Vehiculo;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 
@@ -13,7 +15,9 @@ public interface Gestionable<T>{
     
     void actualizar(String patente, T nuevoVehiculo);
     
-    void eliminar(String patente);
+    void eliminarPorIndice(int id);
+    
+    void eliminarPorPatente(String patente);
     
     public void ordenar();
     
@@ -21,6 +25,9 @@ public interface Gestionable<T>{
     
     public List<T> filtrar(Predicate<T> predicate);
     
-
+    void aplicarCambios(Consumer<T> consumer);
     
+    void guardarEnCSV(String path);
+    
+    List<Vehiculo> cargarDesdeCSV(String path);
 }
