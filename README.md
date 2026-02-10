@@ -1,6 +1,6 @@
 # Sistema de Gestión de Vehiculos
 
-###Sobre mi
+### Sobre mi
 Soy Santiago Julián Vallina, tengo 25 años y vivo en Banfield.
 #####Datos de Alumno: 
 - DNI: 42.375.241
