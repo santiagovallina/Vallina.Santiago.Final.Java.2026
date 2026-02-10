@@ -47,7 +47,7 @@ public class BtnLeer extends Button{
         detalles.append(String.format("Color: %s\n", vehiculo.getColor()));
         detalles.append(String.format("Precio: $%.2f\n", vehiculo.getPrecio()));
         
-        // Agregar detalles específicos según el tipo
+
         if (vehiculo instanceof Auto) {
             Auto auto = (Auto) vehiculo;
             detalles.append("\n--- Detalles de Auto ---\n");
@@ -58,7 +58,7 @@ public class BtnLeer extends Button{
             Moto moto = (Moto) vehiculo;
             detalles.append("\n--- Detalles de Moto ---\n");
             detalles.append(String.format("Cilindrada: %d cc\n", moto.getCilindrada()));
-            detalles.append(String.format("Peso: %.1f kg\n", moto.getPeso()));
+            detalles.append(String.format("Peso: %.1f kg\n", moto.getTipoMoto()));
             
         } else if (vehiculo instanceof Camion) {
             Camion camion = (Camion) vehiculo;

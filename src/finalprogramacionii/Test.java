@@ -5,6 +5,7 @@ import Model.Auto;
 import Model.Camion;
 import Model.Color;
 import Model.Moto;
+import Model.TipoMoto;
 import Model.Vehiculo;
 import java.util.Comparator;
 import java.util.List;
@@ -22,7 +23,7 @@ public class Test {
         Vehiculo v2 = new Auto("DEF456", 2019, "Ford", Color.AZUL, 4500000, 3, 2.0);
         Vehiculo v3 = new Auto("GHI789", 2021, "Fiat", Color.BLANCO, 3800000, 5, 1.4);
         Vehiculo v4 = new Auto("GHI789", 2021, "Fiat", Color.VERDE, 3800000, 5, 1.4);
-        Vehiculo m1 = new Moto("RTE123", 2021, "Honda", Color.VERDE, 1800000, 500, 200);
+        Vehiculo m1 = new Moto("RTE123", 2021, "Honda", Color.VERDE, 1800000, 500, TipoMoto.DEPORTIVA);
         
         gestor.agregar(v);
         gestor.agregar(v1);
@@ -89,7 +90,7 @@ public class Test {
         gestorJSON.leer();
         
         // Exportar a un archivo txt una lista filtrada segun tipo de vehiculo
-        gestor.exportarPorTipoATXT(AppConfig.PATH_TXT, "Moto");
+        gestor.exportarPorTipoATXT(AppConfig.PATH_TXT, "Auto");
 
     }
     

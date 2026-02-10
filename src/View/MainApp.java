@@ -35,12 +35,12 @@ public class MainApp extends Application {
         BienvenidaView bienvenida = new BienvenidaView(root, gestor);
         root.setCenter(bienvenida.getView());
         
-        Vehiculo v = new Auto("ZAE321", 2020, "Chevrolet", Color.AZUL, 6000000);
-        Vehiculo v1 = new Auto("ABC123", 2020, "Toyota", Color.ROJO, 5000000);
-        Vehiculo v2 = new Auto("DEF456", 2019, "Ford", Color.AZUL, 4500000);
-        Vehiculo v3 = new Auto("GHI789", 2021, "Fiat", Color.BLANCO, 3800000);
-        Vehiculo c1 = new Camion("PLD789", 2021, "Scania", Color.VERDE, 7800000);
-        Vehiculo m1 = new Moto("RTE123", 2021, "Honda", Color.VERDE, 1800000);
+        Vehiculo v = new Auto("ZAE321", 2020, "CHEVROLET", Color.AZUL, 6000000);
+        Vehiculo v1 = new Auto("ABC123", 2020, "TOYOTA", Color.ROJO, 5000000);
+        Vehiculo v2 = new Auto("DEF456", 2019, "FORD", Color.AZUL, 4500000);
+        Vehiculo v3 = new Auto("GHI789", 2021, "FIAT", Color.BLANCO, 3800000);
+        Vehiculo c1 = new Camion("PLD789", 2021, "SCANIA", Color.VERDE, 7800000);
+        Vehiculo m1 = new Moto("RTE123", 2021, "HONDA", Color.VERDE, 1800000);
         
         inicializarDatosEjemplo.add(v);
         inicializarDatosEjemplo.add(v1);

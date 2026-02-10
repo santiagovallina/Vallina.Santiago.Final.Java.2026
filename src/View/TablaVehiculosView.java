@@ -10,6 +10,10 @@ import View.Botones.BtnActualizar;
 import View.Botones.BtnAgregar;
 import View.Botones.BtnEliminar;
 import View.Botones.BtnLeer;
+import View.Botones.BtnModificarPrecios;
+import View.Botones.BtnesOrdenamiento;
+import View.Botones.PanelExportar;
+import View.Botones.PanelFiltrado;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
@@ -21,10 +25,17 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import service.GestorVehiculos;
 import finalprogramacionii.Test;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Comparator;
+import java.util.Locale;
 import java.util.Optional;
+import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 
 public class TablaVehiculosView {
     private VBox view;
@@ -59,6 +70,25 @@ public class TablaVehiculosView {
 
         TableColumn<Vehiculo, Double> colPrecio = new TableColumn<>("Precio");
         colPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
+        colPrecio.setCellFactory(col -> new TableCell<Vehiculo, Double>() {
+            @Override
+            protected void updateItem(Double precio, boolean empty) {
+                super.updateItem(precio, empty);
+
+                if (empty || precio == null) {
+                    setText(null);
+                } else {
+                    // Formato con separadores de miles
+                    DecimalFormat df = new DecimalFormat("#,###.00");
+                    DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
+                    symbols.setGroupingSeparator('.');  // Punto para miles
+                    symbols.setDecimalSeparator(',');   // Coma para decimales
+                    df.setDecimalFormatSymbols(symbols);
+
+                    setText("$" + df.format(precio));
+                }
+            }
+        });
 
         table.getColumns().addAll(colTipo, colPatente, colModelo, colMarca, colColor, colPrecio);
         
@@ -66,22 +96,32 @@ public class TablaVehiculosView {
         data.setAll(gestor.getLista());
         table.setItems(data);
         
+        PanelFiltrado panelFiltrado = new PanelFiltrado(root, data, gestor);
         Button btnAgregar = new BtnAgregar(root, gestor);
         Button btnEliminar = new BtnEliminar(table, data, gestor);
         Button btnActualizar = new BtnActualizar(root, table, gestor); 
         Button btnLeer = new BtnLeer(table);
         Button btnVolver = new Button("← Volver");
+        BtnesOrdenamiento botonesOrdenamiento = new BtnesOrdenamiento(data, gestor);
+        BtnModificarPrecios btnModificarPrecios = new BtnModificarPrecios(gestor, table, data);
+        PanelExportar pnlExportar = new PanelExportar(gestor);
         btnVolver.setOnAction(e -> { 
             BienvenidaView bienvenida = new BienvenidaView(root, gestor);
             root.setCenter(bienvenida.getView()); 
         });
         
-        VBox botonesBox = new VBox(10, btnAgregar, btnEliminar, btnActualizar, btnLeer, btnVolver);
         
-        view = new VBox(10, table, botonesBox);
+        
+        HBox botonesBox = new HBox(10, btnAgregar, btnEliminar, btnActualizar, btnLeer);
+        
+        botonesBox.setAlignment(Pos.CENTER);
+        botonesBox.setPadding(new Insets(15));
+        
+        view = new VBox(10, panelFiltrado.getPanel(), table, botonesBox,
+                botonesOrdenamiento.getPanel(), btnModificarPrecios.getView(),
+                pnlExportar.getView(), btnVolver);
         view.setAlignment(Pos.CENTER);
-        
-        
+         
     }
 
     public VBox getView() {

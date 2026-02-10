@@ -6,15 +6,15 @@ import service.CSVSerializable;
 public class Moto extends Vehiculo implements CSVSerializable, Serializable{
     
     private int cilindrada;
-    private double peso;
+    private TipoMoto tipo;
 
-    public Moto(String patente, int modelo, String marca, Color color, double precio,  int cilindrada, int peso) {
+    public Moto(String patente, int modelo, String marca, Color color, double precio,  int cilindrada, TipoMoto tipo) {
         super(patente, modelo, marca, color, precio);
         this.cilindrada = cilindrada;
-        this.peso = peso;
+        this.tipo = tipo;
     }
     
-    public Moto(String patente, int modelo, String marca, int cilindrada,  Color color, double precio) {
+    public Moto(String patente, int modelo, String marca,  Color color, double precio, int cilindrada) {
         super(patente, modelo, marca, color, precio);
         this.cilindrada = cilindrada;
     }
@@ -25,18 +25,16 @@ public class Moto extends Vehiculo implements CSVSerializable, Serializable{
 
     @Override
     public String toString() {
-        return super.toString() + "Moto{" + "cilindrada=" + cilindrada + ", peso=" + peso + '}';
+        return super.toString() + "Moto{" + "cilindrada=" + cilindrada + ", tipo=" + tipo + '}';
     }
 
     public int getCilindrada() {
         return cilindrada;
     }
 
-    public double getPeso() {
-        return peso;
+    public TipoMoto getTipoMoto() {
+        return tipo;
     }
-    
-    
     
     @Override
     public void encender(){
@@ -57,7 +55,7 @@ public class Moto extends Vehiculo implements CSVSerializable, Serializable{
     
     @Override
     public String toHeaderCSV() {
-        return "patente,modelo,marca,color,precio,cilindrada,peso";
+        return "patente,modelo,marca,color,precio,cilindrada,tipo";
     }
     
     

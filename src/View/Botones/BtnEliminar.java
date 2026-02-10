@@ -32,7 +32,6 @@ public class BtnEliminar extends Button{
             Vehiculo seleccionado = table.getSelectionModel().getSelectedItem();
             
             if (seleccionado != null) {
-                // Mostrar confirmación
                 Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
                 confirmacion.setTitle("Confirmar eliminación");
                 confirmacion.setHeaderText("¿Está seguro que desea eliminar este vehículo?");
@@ -46,16 +45,10 @@ public class BtnEliminar extends Button{
                 Optional<ButtonType> resultado = confirmacion.showAndWait();
                 
                 if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
-                    // Eliminar del gestor usando el método eliminarPorPatente
-                    gestor.eliminarPorPatente(seleccionado.getPatente());
-                    
-                    // Guardar cambios en JSON
-                    gestor.guardarEnJSON(PATH_JSON);
-                    
-                    // Refrescar la tabla
+                    gestor.eliminarPorPatente(seleccionado.getPatente());                   
+                    gestor.guardarEnJSON(PATH_JSON);  
                     data.setAll(gestor.getLista());
-                    
-                    // Mensaje de éxito
+
                     mostrarExito(seleccionado);
                 }
                 

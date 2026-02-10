@@ -1,12 +1,39 @@
 Listado de Vehículos filtrados
-Tipo seleccionado: Moto
+Tipo seleccionado: Auto
 ====================================
-Tipo: Moto
-Patente: RTE123
+Tipo: Auto
+Patente: ZAE321
+Modelo: 2020
+Marca: Chevrolet
+Color: AZUL
+Precio: 6600000.000000001
+Puertas: 5
+Motor: 1.6
+------------------------------
+Tipo: Auto
+Patente: ABC123
+Modelo: 2020
+Marca: Toyota
+Color: ROJO
+Precio: 5500000.0
+Puertas: 5
+Motor: 1.6
+------------------------------
+Tipo: Auto
+Patente: DEF456
+Modelo: 2019
+Marca: Ford
+Color: AZUL
+Precio: 4950000.0
+Puertas: 3
+Motor: 2.0
+------------------------------
+Tipo: Auto
+Patente: GHI789
 Modelo: 2021
-Marca: Honda
+Marca: Fiat
 Color: VERDE
-Precio: 1980000.0000000002
-Cilindrada: 500
-Peso: 200.0
+Precio: 4180000.0000000005
+Puertas: 5
+Motor: 1.4
 ------------------------------

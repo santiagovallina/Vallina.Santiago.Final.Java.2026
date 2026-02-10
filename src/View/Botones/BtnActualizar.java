@@ -13,7 +13,6 @@ public class BtnActualizar extends Button{
     
     private BorderPane root;
     private TableView<Vehiculo> table;
-    private ObservableList<Vehiculo> data;
     private GestorVehiculos<Vehiculo> gestor;
     
     public BtnActualizar(BorderPane root, 
@@ -36,7 +35,6 @@ public class BtnActualizar extends Button{
             Vehiculo seleccionado = table.getSelectionModel().getSelectedItem();
             
             if (seleccionado != null) {
-                // Abrir formulario de actualización
                 FormularioActualizarView formActualizar = 
                     new FormularioActualizarView(root, gestor, seleccionado);
                 root.setCenter(formActualizar.getView());

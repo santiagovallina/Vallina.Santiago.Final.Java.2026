@@ -22,9 +22,9 @@ public interface Gestionable<T>{
     
     public void ordenar();
     
-    public void ordenar(Comparator<T> comparator);
+    public void ordenar(Comparator<? super T> comparator);
     
-    public List<T> filtrar(Predicate<T> predicate);
+    public List<T> filtrar(Predicate<? super T> predicate);
     
     void aplicarCambios(Consumer<T> consumer);
     
@@ -41,4 +41,6 @@ public interface Gestionable<T>{
     List<T> cargarDesdeJSON(String path);
     
     void exportarPorTipoATXT(String path, String tipo);
+    
+    void guardarTodo();
 }

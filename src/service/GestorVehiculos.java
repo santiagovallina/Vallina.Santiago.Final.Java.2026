@@ -1,5 +1,6 @@
 package service;
 
+import AppConfig.AppConfig;
 import Model.Auto;
 import Model.Camion;
 import Model.Moto;
@@ -48,9 +49,17 @@ public class GestorVehiculos<T extends CSVSerializable & Comparable<T>> implemen
         else if(!(item instanceof Vehiculo)) {
             throw new IllegalArgumentException("Eso no es un vehiculo.");
         }
+        for (T t : vehiculos) {
+            Vehiculo v = (Vehiculo) t;
+            if (v.getPatente().equalsIgnoreCase(((Vehiculo)item).getPatente())) {
+                throw new PatenteExistenteException();
+            }
+        }
         vehiculos.add(item);
         System.out.println("Vehículo agregado correctamente.");
     }
+    
+    
 
     @Override
     public void leer() {
@@ -75,7 +84,7 @@ public class GestorVehiculos<T extends CSVSerializable & Comparable<T>> implemen
             return;
         }
     }
-    System.out.println("No se encontró un vehículo con la patente " + patente + ".");
+    throw new VehiculoNoEncontradoException();
     }
     
     @Override
@@ -94,7 +103,7 @@ public class GestorVehiculos<T extends CSVSerializable & Comparable<T>> implemen
                 return;
             }
         }
-        System.out.println("No se encontró ningún vehiculo con esa patente");
+        throw new VehiculoNoEncontradoException();
     }
     
     @Override
@@ -103,12 +112,12 @@ public class GestorVehiculos<T extends CSVSerializable & Comparable<T>> implemen
     }
     
     @Override
-    public void ordenar(Comparator<T> comparator){
+    public void ordenar(Comparator<? super T> comparator){
         Collections.sort(vehiculos, comparator);
     }
     
     @Override
-    public List<T> filtrar(Predicate<T> predicate){
+    public List<T> filtrar(Predicate<? super T> predicate){
         List<T> toReturn = new ArrayList<>();
         for(T item : vehiculos){
             if(predicate.test(item)){
@@ -159,14 +168,11 @@ public class GestorVehiculos<T extends CSVSerializable & Comparable<T>> implemen
     vehiculos.clear();
     
     try (ObjectInputStream entrada = new ObjectInputStream(new FileInputStream(path))) {
-        // Deserializa la lista de objetos
         vehiculos.addAll((List<T>) entrada.readObject());
     }   catch (IOException ex) {
-        // Manejo de excepciones de I/O
         System.out.println("Error al leer el archivo: " + ex.getMessage());
         ex.printStackTrace();
     } catch (ClassNotFoundException ex) {
-        // Manejo de excepciones si la clase no es encontrada
         System.out.println("Clase no encontrada durante la deserialización: " + ex.getMessage());
         ex.printStackTrace();
     }
@@ -255,13 +261,13 @@ public class GestorVehiculos<T extends CSVSerializable & Comparable<T>> implemen
     public void exportarPorTipoATXT(String path, String tipo) {
     File archivo = new File(path);
     try (BufferedWriter bw = new BufferedWriter(new FileWriter(archivo))) {
-        // Encabezado descriptivo
+    
         bw.write("Listado de Vehículos filtrados\n");
         bw.write("Tipo seleccionado: " + tipo + "\n");
         bw.write("====================================\n");
 
         for (T v : vehiculos) {
-            // Filtrar por tipo
+            
             if (v.getClass().getSimpleName().equalsIgnoreCase(tipo)) {
                 Vehiculo vehiculo = (Vehiculo) v;
                 bw.write("Tipo: " + v.getClass().getSimpleName() + "\n");
@@ -276,7 +282,7 @@ public class GestorVehiculos<T extends CSVSerializable & Comparable<T>> implemen
                     bw.write("Motor: " + a.getMotor() + "\n");
                 } else if (v instanceof Moto m) {
                     bw.write("Cilindrada: " + m.getCilindrada() + "\n");
-                    bw.write("Peso: " + m.getPeso() + "\n");
+                    bw.write("Peso: " + m.getTipoMoto() + "\n");
                 } else if (v instanceof Camion c) {
                     bw.write("Cantidad de ejes: " + c.getCantidadEjes() + "\n");
                 }
@@ -288,8 +294,13 @@ public class GestorVehiculos<T extends CSVSerializable & Comparable<T>> implemen
     } catch (IOException ex) {
         System.out.println("Error al exportar a TXT: " + ex.getMessage());
     }
-}
-
-
+    }
+    
+    @Override
+    public void guardarTodo() { 
+        guardarEnJSON(AppConfig.PATH_JSON);
+        guardarEnCSV(AppConfig.PATH_CSV);
+        guardarEnBinario(AppConfig.PATH_SER); 
+    }
     
 }
