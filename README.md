@@ -55,7 +55,7 @@ Al presionar "actualizar seleccionado", nos muestra el formulario donde muestra 
 
 ## Diagrama UML
 
-![](https://github.com/santiagovallina/Vallina.Santiago.Final.Java.2026/blob/main/img/Captura%20de%20pantalla%202026-02-11%20102325.png)
+![](https://github.com/santiagovallina/Vallina.Santiago.Final.Java.2026/blob/main/img/Captura%20de%20pantalla%202026-02-11%20164529.png)
 
 ## Archivos generados
 Se guardan en distintos archivos de las siguientes maneras:
